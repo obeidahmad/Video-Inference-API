@@ -1,0 +1,6 @@
+uvicorn==0.15.0
+fastapi[all]==0.70.0
+opencv-python==4.5.4.58
+numpy==1.21.4
+requests==2.26.0
+python-multipart==0.0.5
