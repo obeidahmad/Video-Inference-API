@@ -15,7 +15,6 @@ class OpenvinoPredictionService(AbstractOpenvinoService):
     def detect(self, image: str, model_name: str) -> None:
         try:
             url = f'http://localhost:80/models/{model_name}/image_segmentation'
-            print(image)
             files = {'input_data': open(image, 'rb')}
             res = requests.post(url, files=files)
             jpg_as_np = np.frombuffer(res.content, dtype=np.uint8)

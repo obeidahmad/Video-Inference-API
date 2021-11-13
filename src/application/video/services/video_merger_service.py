@@ -22,7 +22,7 @@ class VideoMergerService(AbstractVideoProcessingService):
             size = (width, height)
             img_array.append(img)
 
-        video_output_path = os.path.join(self.path_service.paths.video_output_dir, "vid.api")
+        video_output_path = os.path.join(self.path_service.paths.video_output_dir, "vid.avi")
         out = cv2.VideoWriter(video_output_path, cv2.VideoWriter_fourcc(*'DIVX'), 15, size)
 
         [out.write(image) for image in img_array]
