@@ -4,6 +4,7 @@ import cv2
 
 from domain.contracts.abstract_path_service import AbstractPathService
 from domain.contracts.abstract_video_processing_service import AbstractVideoProcessingService
+from domain.exceptions.input_exception import NotVideoFileException
 
 
 class VideoSplitterService(AbstractVideoProcessingService):
@@ -12,7 +13,10 @@ class VideoSplitterService(AbstractVideoProcessingService):
 
     def process_video(self, path) -> None:
         video_capture = cv2.VideoCapture(path)
+        print(video_capture)
         success, image = video_capture.read()
+        if not success:
+            raise NotVideoFileException(message='File is not a Video.')
         count = 0
         while success:
             frames_input_path = os.path.join(self.path_service.paths.frames_input_dir, f"{count}.jpg")
