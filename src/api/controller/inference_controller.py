@@ -1,13 +1,13 @@
 from fastapi import File, UploadFile, APIRouter
 
-from application.prediction.services.inference_service import InferenceService
+from containers import Container
 
 router = APIRouter()
-inference = InferenceService()
+inference_service = Container.inference_service()
 
 
 @router.post("/")
 async def create_upload_file(model_name: str, uploaded_file: UploadFile = File(...)):
-    return inference.run_inference(uploaded_file, model_name)
+    return inference_service.run_inference(uploaded_file, model_name)
 
 # http exception

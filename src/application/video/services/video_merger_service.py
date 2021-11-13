@@ -2,24 +2,28 @@ import os
 
 import cv2
 
+from domain.contracts.abstract_path_service import AbstractPathService
 from domain.contracts.abstract_video_processing_service import AbstractVideoProcessingService
 from shared.helpers.alphanumerical_sort_helper import sort_alphanumerical
 
 
 class VideoMergerService(AbstractVideoProcessingService):
+    def __init__(self, path_service: AbstractPathService):
+        self.path_service: AbstractPathService = path_service
+
     def process_video(self, path) -> None:
         img_array = []
 
         frames = os.listdir(path)
         frames = sort_alphanumerical(frames)
-        for filename in frames:
-            print(filename)
-            img = cv2.imread(os.path.join(path, filename))
+        for frame in frames:
+            img = cv2.imread(os.path.join(path, frame))
             height, width = img.shape[:2]
             size = (width, height)
             img_array.append(img)
 
-        out = cv2.VideoWriter('output/vid.avi', cv2.VideoWriter_fourcc(*'DIVX'), 15, size)
+        video_output_path = os.path.join(self.path_service.paths.video_output_dir, "vid.api")
+        out = cv2.VideoWriter(video_output_path, cv2.VideoWriter_fourcc(*'DIVX'), 15, size)
 
         [out.write(image) for image in img_array]
         out.release()

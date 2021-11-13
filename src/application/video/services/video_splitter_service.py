@@ -1,14 +1,21 @@
+import os
+
 import cv2
 
+from domain.contracts.abstract_path_service import AbstractPathService
 from domain.contracts.abstract_video_processing_service import AbstractVideoProcessingService
 
 
 class VideoSplitterService(AbstractVideoProcessingService):
+    def __init__(self, path_service: AbstractPathService):
+        self.path_service: AbstractPathService = path_service
+
     def process_video(self, path) -> None:
-        vidcap = cv2.VideoCapture(path)
-        success, image = vidcap.read()
+        video_capture = cv2.VideoCapture(path)
+        success, image = video_capture.read()
         count = 0
         while success:
-            cv2.imwrite("%d.jpg" % count, image)
-            success, image = vidcap.read()
+            frames_input_path = os.path.join(self.path_service.paths.frames_input_dir, f"{count}.jpg")
+            cv2.imwrite(frames_input_path, image)
+            success, image = video_capture.read()
             count += 1

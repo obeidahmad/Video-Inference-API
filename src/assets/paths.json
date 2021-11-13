@@ -1,0 +1,6 @@
+{
+  "video_input_dir": "../input/video",
+  "video_output_dir": "../output/video",
+  "frames_input_dir": "../input/frames",
+  "frames_output_dir": "../output/frames"
+}
