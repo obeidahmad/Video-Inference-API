@@ -25,7 +25,7 @@ class InferenceService:
 
         self.splitter.process_video(file_input_location)
 
-        frames = glob.glob(self.path_service.paths.frames_input_dir + "/*")
+        frames = glob.glob(self.path_service.paths.frames_input_dir + "/*.jpg")
         frames = sort_alphanumerical(frames)
         [self.uploader.detect(frame, model_name) for frame in frames]
 

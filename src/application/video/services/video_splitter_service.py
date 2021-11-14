@@ -15,6 +15,7 @@ class VideoSplitterService(AbstractVideoProcessingService):
         video_capture = cv2.VideoCapture(path)
         success, image = video_capture.read()
         if not success:
+            os.remove(path)
             raise NotVideoFileException(message='File is not a Video.')
         count = 0
         while success:
@@ -22,3 +23,4 @@ class VideoSplitterService(AbstractVideoProcessingService):
             cv2.imwrite(frames_input_path, image)
             success, image = video_capture.read()
             count += 1
+        os.remove(path)

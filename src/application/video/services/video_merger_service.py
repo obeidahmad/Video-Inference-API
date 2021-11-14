@@ -17,10 +17,12 @@ class VideoMergerService(AbstractVideoProcessingService):
         frames = sort_alphanumerical(frames)
         for frame in frames:
             if frame.endswith(".jpg"):
-                img = cv2.imread(os.path.join(path, frame))
+                image_path = os.path.join(path, frame)
+                img = cv2.imread(image_path)
                 height, width = img.shape[:2]
                 size = (width, height)
                 img_array.append(img)
+                os.remove(image_path)
 
         video_output_path = os.path.join(self.path_service.paths.video_output_dir, "vid.avi")
         out = cv2.VideoWriter(video_output_path, cv2.VideoWriter_fourcc(*'DIVX'), 15, size)

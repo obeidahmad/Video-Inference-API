@@ -14,14 +14,15 @@ class OpenvinoPredictionService(AbstractOpenvinoService):
         self.path_service: AbstractPathService = path_service
         self.api_url_service: AbstractUrlService = api_url_service
 
-    def detect(self, image: str, model_name: str) -> None:
+    def detect(self, input_image: str, model_name: str) -> None:
         try:
             url = self.api_url_service.urls.image_segmentation_url % model_name
-            files = {'input_data': open(image, 'rb')}
+            files = {'input_data': open(input_image, 'rb')}
             res = requests.post(url, files=files)
             jpg_as_np = np.frombuffer(res.content, dtype=np.uint8)
             img = cv2.imdecode(jpg_as_np, flags=1)
-            frames_output_path = os.path.join(self.path_service.paths.frames_output_dir, os.path.basename(image))
+            frames_output_path = os.path.join(self.path_service.paths.frames_output_dir, os.path.basename(input_image))
             cv2.imwrite(frames_output_path, img)
         except Exception as e:
             print(e)
+        os.remove(input_image)
