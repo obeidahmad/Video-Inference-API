@@ -6,7 +6,7 @@ from starlette.responses import JSONResponse
 from api.controller.inference_controller import router as inference_router
 from domain.exceptions.input_exception import ApiException
 
-app = FastAPI(title='Inference API')
+app = FastAPI(title='Video Inference API')
 
 app.include_router(inference_router,
                    prefix='/inference',

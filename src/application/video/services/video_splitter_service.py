@@ -13,7 +13,6 @@ class VideoSplitterService(AbstractVideoProcessingService):
 
     def process_video(self, path) -> None:
         video_capture = cv2.VideoCapture(path)
-        print(video_capture)
         success, image = video_capture.read()
         if not success:
             raise NotVideoFileException(message='File is not a Video.')
