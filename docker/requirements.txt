@@ -5,4 +5,3 @@ numpy==1.21.4
 requests==2.26.0
 python-multipart==0.0.5
 dependency-injector==4.37.0
-validators==0.18.2

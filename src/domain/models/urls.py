@@ -1,5 +1,6 @@
-import validators
 from pydantic import validator, BaseModel
+
+from shared.helpers.url_validator import url_validate
 
 
 class Urls(BaseModel):
@@ -7,5 +8,5 @@ class Urls(BaseModel):
 
     @validator('image_segmentation_url')
     def is_dir(cls, value):
-        assert validators.url(value), "{} should be a url".format(value)
+        assert url_validate(value), "{} should be a url".format(value)
         return value
