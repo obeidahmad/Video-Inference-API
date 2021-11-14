@@ -4,17 +4,19 @@ import cv2
 import numpy as np
 import requests
 
+from domain.contracts.abstract_url_service import AbstractUrlService
 from domain.contracts.abstract_openvino_service import AbstractOpenvinoService
 from domain.contracts.abstract_path_service import AbstractPathService
 
 
 class OpenvinoPredictionService(AbstractOpenvinoService):
-    def __init__(self, path_service: AbstractPathService):
+    def __init__(self, path_service: AbstractPathService, api_url_service: AbstractUrlService):
         self.path_service: AbstractPathService = path_service
+        self.api_url_service: AbstractUrlService = api_url_service
 
     def detect(self, image: str, model_name: str) -> None:
         try:
-            url = f'http://localhost:80/models/{model_name}/image_segmentation'
+            url = self.api_url_service.urls.image_segmentation_url % model_name
             files = {'input_data': open(image, 'rb')}
             res = requests.post(url, files=files)
             jpg_as_np = np.frombuffer(res.content, dtype=np.uint8)

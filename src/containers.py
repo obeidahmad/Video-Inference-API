@@ -3,17 +3,20 @@ from dependency_injector import providers, containers
 from application.paths.services.path_service import PathService
 from application.prediction.services.inference_service import InferenceService
 from application.prediction.services.openvino_prediction_service import OpenvinoPredictionService
+from application.urls.services.api_url_service import ApiUrlService
 from application.video.services.video_merger_service import VideoMergerService
 from application.video.services.video_splitter_service import VideoSplitterService
 from domain.contracts.abstract_openvino_service import AbstractOpenvinoService
 from domain.contracts.abstract_path_service import AbstractPathService
+from domain.contracts.abstract_url_service import AbstractUrlService
 from domain.contracts.abstract_video_processing_service import AbstractVideoProcessingService
 
 
 class Container(containers.DeclarativeContainer):
     path_service = providers.Singleton(AbstractPathService.register(PathService))
+    api_url_service = providers.Singleton(AbstractUrlService.register(ApiUrlService))
     uploader_service = providers.Factory(AbstractOpenvinoService.register(OpenvinoPredictionService),
-                                         path_service=path_service)
+                                         path_service=path_service, api_url_service=api_url_service)
     splitter_service = providers.Factory(AbstractVideoProcessingService.register(VideoSplitterService),
                                          path_service=path_service)
     merger_service = providers.Factory(AbstractVideoProcessingService.register(VideoMergerService),

@@ -13,14 +13,14 @@ class VideoMergerService(AbstractVideoProcessingService):
 
     def process_video(self, path) -> None:
         img_array = []
-
         frames = os.listdir(path)
         frames = sort_alphanumerical(frames)
         for frame in frames:
-            img = cv2.imread(os.path.join(path, frame))
-            height, width = img.shape[:2]
-            size = (width, height)
-            img_array.append(img)
+            if frame.endswith(".jpg"):
+                img = cv2.imread(os.path.join(path, frame))
+                height, width = img.shape[:2]
+                size = (width, height)
+                img_array.append(img)
 
         video_output_path = os.path.join(self.path_service.paths.video_output_dir, "vid.avi")
         out = cv2.VideoWriter(video_output_path, cv2.VideoWriter_fourcc(*'DIVX'), 15, size)

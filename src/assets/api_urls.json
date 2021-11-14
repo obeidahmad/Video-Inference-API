@@ -1,0 +1,3 @@
+{
+  "image_segmentation_url": "http://API:80/models/%s/image_segmentation"
+}
